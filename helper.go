@@ -1,19 +1,19 @@
-package lua
+package main
 
 import (
-	"sync"
 	"os"
+	"sync"
 	"time"
 )
 
 type luaCtx struct {
 	luavm *LuaContext
-	mt   time.Time
+	mt    time.Time
 }
 
 var (
 	luaCtxCache map[string]*luaCtx
-	lock *sync.Mutex
+	lock        *sync.Mutex
 )
 
 func InitCache() {
@@ -37,7 +37,7 @@ func LoadFileFromCache(path string, vars map[string]interface{}) (ctx *LuaContex
 		fi, _ := os.Stat(path)
 		luaC = &luaCtx{
 			luavm: ctx,
-			mt: fi.ModTime(),
+			mt:    fi.ModTime(),
 		}
 		luaCtxCache[path] = luaC
 		return

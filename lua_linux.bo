@@ -1,4 +1,4 @@
-package lua
+package main
 
 /*
 #cgo CFLAGS: -I. -Wno-array-bounds -Wno-format-truncation -D_GNU_SOURCE -DCONFIG_BIGNUM -O2

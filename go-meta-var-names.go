@@ -1,4 +1,4 @@
-package lua
+package main
 
 var (
 	goObjMeta  = "goObjMeta\x00"

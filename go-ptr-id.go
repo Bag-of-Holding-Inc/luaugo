@@ -1,11 +1,11 @@
-package lua
+package main
 
 import (
 	"sync"
 )
 
 type (
-	fnGetPtrStore func(ctx uintptr)(*ptrStore)
+	fnGetPtrStore func(ctx uintptr) *ptrStore
 	fnDelPtrStore func(ctx uintptr)
 )
 
@@ -22,7 +22,7 @@ func InitPtrStore() (getPtrStore fnGetPtrStore, delPtrStore fnDelPtrStore) {
 	lock := &sync.Mutex{}
 	stores := make(map[uintptr]*ptrStore)
 
-	getPtrStore = func(ctx uintptr)(*ptrStore) {
+	getPtrStore = func(ctx uintptr) *ptrStore {
 		lock.Lock()
 		defer lock.Unlock()
 		if store, ok := stores[ctx]; ok {
@@ -47,12 +47,12 @@ func InitPtrStore() (getPtrStore fnGetPtrStore, delPtrStore fnDelPtrStore) {
 
 type (
 	ref struct {
-		ptr interface{}
+		ptr   interface{}
 		count int
 	}
 	ptrStore struct {
-		lock *sync.Mutex
-		index uint32
+		lock   *sync.Mutex
+		index  uint32
 		id2ptr map[uint32]*ref
 		ptr2id map[interface{}]uint32
 	}
@@ -60,7 +60,7 @@ type (
 
 func newPtrStore() *ptrStore {
 	return &ptrStore{
-		lock: &sync.Mutex{},
+		lock:   &sync.Mutex{},
 		id2ptr: make(map[uint32]*ref),
 		ptr2id: make(map[interface{}]uint32),
 	}
@@ -82,7 +82,7 @@ func (s *ptrStore) register(i interface{}) uint32 {
 			break
 		}
 	}
-	s.id2ptr[s.index] = &ref{ptr:i, count:1}
+	s.id2ptr[s.index] = &ref{ptr: i, count: 1}
 	s.ptr2id[i] = s.index
 	return s.index
 }

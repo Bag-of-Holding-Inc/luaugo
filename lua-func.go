@@ -1,4 +1,4 @@
-package lua
+package main
 
 // #include "lua.h"
 // static void popN(lua_State *L, int n);
