@@ -470,9 +470,9 @@ func go_func_call(ctx *C.lua_State) C.int {
 	argc := int(C.lua_gettop(ctx)) - 1
 	// [ arg1 arg2 ... argN ]
 	getArgs := func(i int) interface{} {
-		C.lua_pushnil(ctx)              // [ args ... null ]
-		C.lua_copy(ctx, C.int(i+2), -1) // [ args ... argI ]  i is 0-based, lua is 1-based
-		defer C.popN(ctx, 1)            // [ args ... ]
+		C.lua_pushnil(ctx) // [ args ... null ]
+		//C.lua_copy(ctx, C.int(i+2), -1) // [ args ... argI ]  i is 0-based, lua is 1-based
+		defer C.popN(ctx, 1) // [ args ... ]
 
 		if goVal, err := fromLuaValue(ctx); err == nil {
 			return goVal
@@ -524,9 +524,9 @@ func registerMetatable(ctx *C.lua_State, metaName string, methods ...*metaMethod
 
 	for _, m := range methods {
 		getStrPtr(&m.name, &name)
-		C.lua_pushstring(ctx, name)                 // [ metatable method-name ]
-		C.lua_pushcclosurek(ctx, m.method, 0, NULL) // [ metatable method-name method-func ]
-		C.lua_rawset(ctx, -3)                       // [ metatable ] with metatable[method-name] = method-func
+		C.lua_pushstring(ctx, name) // [ metatable method-name ]
+		//C.lua_pushcclosurek(ctx, m.method, 0, NULL) // [ metatable method-name method-func ]
+		C.lua_rawset(ctx, -3) // [ metatable ] with metatable[method-name] = method-func
 	}
 
 	C.popN(ctx, 1) // [ ]
@@ -560,7 +560,7 @@ func pushValueWithMetatable(ctx *C.lua_State, v interface{}, metaName string) {
 	*p = idx
 
 	getStrPtr(&metaName, &name)
-	C.lua_setmetatable(ctx, name) // [ userdata ] with metatable
+	//C.lua_setmetatable(ctx, name) // [ userdata ] with metatable
 }
 
 func pushString(ctx *C.lua_State, s string) {
