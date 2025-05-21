@@ -1,4 +1,4 @@
-module github.com/rosbit/luago
+module github.com/Bag-of-Holding-Inc/luaugo
 
 go 1.20
 
