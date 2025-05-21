@@ -75,7 +75,7 @@ func pushLuaMetaValue(ctx *C.lua_State, v interface{}) {
 func getArrayKey(ctx *C.lua_State, vv reflect.Value) (key int, err error) {
 	// [ 1 ] ...
 	// [ 2 ] key
-	if C.lua_isinteger(ctx, 2) == 0 {
+	if C.lua_isnumber(ctx, 2) == 0 {
 		err = fmt.Errorf("integer expected for array")
 		return
 	}
