@@ -5,18 +5,16 @@ package lua
 #include "lua.h"
 #include "lualib.h"
 static int doString(lua_State *L, const char *str) {
-	//return luaL_dostring(L, str);
-	return 0;
+	return luaL_dostring(L, str);
 }
 static int doFile(lua_State *L, const char *filename) {
-	//return luaL_dofile(L, filename);
-	return 0;
+	return luaL_dofile(L, filename);
 }
 static void popN(lua_State *L, int n) {
 	lua_pop(L, n);
 }
 static void pushGlobal(lua_State *L) {
-	//lua_pushglobaltable(L);
+	lua_pushglobaltable(L);
 }
 */
 import "C"

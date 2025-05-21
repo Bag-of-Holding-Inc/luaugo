@@ -51,8 +51,8 @@ func collectFuncResult(ctx *C.lua_State, nOut int) (goVal interface{}, err error
 	default:
 		res := make([]interface{}, nOut)
 		for i := 0; i < nOut; i++ {
-			C.lua_pushnil(ctx) // [ some-obj o1 o2 .. oN nil ]
-			//C.lua_copy(ctx, C.int(i-nOut-1), -1) // [ some-obj o1 o2 .. oN oI]
+			C.lua_pushnil(ctx)                   // [ some-obj o1 o2 .. oN nil ]
+			C.lua_copy(ctx, C.int(i-nOut-1), -1) // [ some-obj o1 o2 .. oN oI]
 			res[i], err = fromLuaValue(ctx)
 			C.popN(ctx, 1) // [ some-obj o1 o2 .. oN ]
 			if err != nil {
@@ -129,8 +129,8 @@ func callFunc(ctx *C.lua_State, args ...interface{}) (res interface{}, err error
 // called by value.go::fromLuaValue()
 func fromLuaFunc(ctx *C.lua_State) (bindGoFunc elutils.FnBindGoFunc) {
 	// [ function ]
-	C.lua_pushnil(ctx) // [ funciton nil ]
-	//C.lua_copy(ctx, -2, -1)                    // [ function function-duplicated ]
+	C.lua_pushnil(ctx)                         // [ funciton nil ]
+	C.lua_copy(ctx, -2, -1)                    // [ function function-duplicated ]
 	idx := C.lua_ref(ctx, C.LUA_REGISTRYINDEX) // [ function ] with registry[idx] = function
 
 	bindGoFunc = func(fnVarPtr interface{}) elutils.FnGoFunc {
